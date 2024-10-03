@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: kitten_exhibition_db
+      POSTGRES_USER: kitten_user
+      POSTGRES_PASSWORD: shirhan
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"  # Optional: Expose port for external access
+
+  web:
+    build: .
+    command: >
+      sh -c "./wait-for-it.sh db:5432 -t 60 -- python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_NAME: kitten_exhibition_db
+      DB_USER: kitten_user
+      DB_PASSWORD: shirhan
+      DB_HOST: db
+      DB_PORT: 5432  # Default PostgreSQL port
+
+volumes:
+  postgres_data:
+
