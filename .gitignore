@@ -1,0 +1,16 @@
+# Python specific files
+*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+env/
+
+# Django specific
+*.sqlite3
+/media/
+/staticfiles/
+
+# Docker specific
+*.log
+docker-compose.override.yml
