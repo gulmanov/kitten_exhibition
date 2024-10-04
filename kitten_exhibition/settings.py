@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+from dotenv import load_dotenv
+load_dotenv()  # This loads the .env file automatically
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,8 +29,7 @@ SECRET_KEY = 'django-insecure-q22q+gpni1r=(stp&%9=rq(q9*h)ka&04w-a1l7^x7luh1g%!v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['159.100.9.102', 'localhost', '127.0.0.1']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -124,17 +126,29 @@ WSGI_APPLICATION = 'kitten_exhibition.wsgi.application'
 #     }
 # }
 
-import os
+# import os
 # import dj_database_url
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('DB_NAME'),               # Use environment variable
+#         'USER': os.getenv('DB_USER'),               # Use environment variable
+#         'PASSWORD': os.getenv('DB_PASSWORD'),       # Use environment variable
+#         'HOST': os.getenv('DB_HOST'),               # Should match 'db' in docker-compose
+#         'PORT': os.getenv('DB_PORT', '5432'),       # Default PostgreSQL port
+#     }
+# }
+
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),               # Use environment variable
-        'USER': os.getenv('DB_USER'),               # Use environment variable
-        'PASSWORD': os.getenv('DB_PASSWORD'),       # Use environment variable
-        'HOST': os.getenv('DB_HOST'),               # Should match 'db' in docker-compose
-        'PORT': os.getenv('DB_PORT', '5432'),       # Default PostgreSQL port
+        'NAME': os.getenv('DB_NAME', 'kitten_exhibition_db'),  # Default to local DB name
+        'USER': os.getenv('DB_USER', 'kitten_user'),            # Default to local user
+        'PASSWORD': os.getenv('DB_PASSWORD', 'shirhan'),        # Default password
+        'HOST': os.getenv('DB_HOST', 'localhost'),              # 'localhost' for local, 'db' for Docker
+        'PORT': os.getenv('DB_PORT', '5432'),                   # Default PostgreSQL port
     }
 }
 
